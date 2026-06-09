@@ -1,33 +1,16 @@
 import { createClient } from '@supabase/supabase-js'
 
-export const config = {
-  api: {
-    bodyParser: true,
-  },
-}
+export const config = { api: { bodyParser: true } }
 
 export default async function handler(req: any, res: any) {
   res.setHeader('Access-Control-Allow-Origin', '*')
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS')
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
 
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end()
-  }
-
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' })
-  }
-
-import { createClient } from '@supabase/supabase-js'
-
-export default async function handler(req: any, res: any) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' })
-  }
+  if (req.method === 'OPTIONS') return res.status(200).end()
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' })
 
   const { employeeData, tempPassword } = req.body
-
   const supabaseUrl = process.env.SUPABASE_URL || ''
   const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || ''
   const resendKey = process.env.RESEND_API_KEY || ''
@@ -39,7 +22,6 @@ export default async function handler(req: any, res: any) {
   const supabase = createClient(supabaseUrl, supabaseServiceKey)
 
   try {
-    // 1. Auth User შექმნა
     const { data: authUser, error: authError } = await supabase.auth.admin.createUser({
       email: employeeData.email,
       password: tempPassword,
@@ -52,7 +34,6 @@ export default async function handler(req: any, res: any) {
     })
     if (authError) throw authError
 
-    // 2. Employee ჩანაწერი
     const { error: empError } = await supabase
       .from('employees')
       .insert([{
@@ -63,7 +44,6 @@ export default async function handler(req: any, res: any) {
       }])
     if (empError) throw empError
 
-    // 3. Email გაგზავნა
     if (resendKey) {
       await fetch('https://api.resend.com/emails', {
         method: 'POST',
