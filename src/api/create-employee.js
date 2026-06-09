@@ -1,8 +1,6 @@
-import { createClient } from '@supabase/supabase-js'
+const { createClient } = require('@supabase/supabase-js')
 
-export const config = { api: { bodyParser: true } }
-
-export default async function handler(req: any, res: any) {
+module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*')
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS')
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
@@ -11,15 +9,10 @@ export default async function handler(req: any, res: any) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' })
 
   const { employeeData, tempPassword } = req.body
-  const supabaseUrl = process.env.SUPABASE_URL || ''
-  const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || ''
-  const resendKey = process.env.RESEND_API_KEY || ''
-
-  if (!supabaseUrl || !supabaseServiceKey) {
-    return res.status(500).json({ error: 'Server configuration missing' })
-  }
-
-  const supabase = createClient(supabaseUrl, supabaseServiceKey)
+  const supabase = createClient(
+    process.env.SUPABASE_URL,
+    process.env.SUPABASE_SERVICE_ROLE_KEY
+  )
 
   try {
     const { data: authUser, error: authError } = await supabase.auth.admin.createUser({
@@ -44,11 +37,11 @@ export default async function handler(req: any, res: any) {
       }])
     if (empError) throw empError
 
-    if (resendKey) {
+    if (process.env.RESEND_API_KEY) {
       await fetch('https://api.resend.com/emails', {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${resendKey}`,
+          'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
@@ -83,7 +76,7 @@ export default async function handler(req: any, res: any) {
 
     return res.status(200).json({ success: true })
 
-  } catch (error: any) {
+  } catch (error) {
     return res.status(400).json({ error: error.message })
   }
 }
