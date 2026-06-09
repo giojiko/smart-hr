@@ -8,6 +8,7 @@ import Register from './pages/Register.tsx'
 import Dashboard from './pages/Dashboard.tsx'
 import Employees from './pages/Employees.tsx'
 import Settings from './pages/Settings.tsx'
+import EmployeeNew from './pages/EmployeeNew.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -19,6 +20,7 @@ createRoot(document.getElementById('root')!).render(
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/employees" element={<Employees />} />
         <Route path="/settings" element={<Settings />} />
+        <Route path="/employees/new" element={<EmployeeNew />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>,
