@@ -141,7 +141,7 @@ function App() {
       <footer className="bg-[#060E1A] px-8 py-10">
         <div className="max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="text-white font-bold">Smart <span className="text-[#1E5CDB]">HR</span></div>
-          <div className="text-gray-500 text-sm">SmartPro Georgia © 2025 · hr.smartpro.ge</div>
+          <div className="text-gray-500 text-sm">SmartPro Georgia © 2026 · hr.smartpro.ge</div>
           <div className="flex gap-6 text-sm text-gray-500">
             <a href="#" className="hover:text-gray-300">კონფიდენციალურობა</a>
             <a href="#" className="hover:text-gray-300">პირობები</a>
