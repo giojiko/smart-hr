@@ -1,6 +1,10 @@
+import { useNavigate } from "react-router-dom"
+
 function App() {
+  const navigate = useNavigate()
   return (
     <div className="min-h-screen bg-white font-sans">
+      
 
       {/* Navbar */}
       <nav className="bg-[#0A1628] px-8 py-4 flex justify-between items-center">
@@ -13,12 +17,15 @@ function App() {
           <a href="#contact" className="hover:text-white">კონტაქტი</a>
         </div>
         <div className="flex gap-3">
-          <button className="text-sm text-gray-300 hover:text-white px-4 py-2">
-            შესვლა
-          </button>
-          <button className="bg-[#1E5CDB] text-white text-sm px-4 py-2 rounded-lg hover:bg-blue-700">
-            უფასოდ სცადე
-          </button>
+        <button   onClick={() => navigate('/login')}
+        className="text-sm text-gray-300 hover:text-white px-4 py-2">
+  შესვლა
+</button>
+<button 
+  onClick={() => navigate('/register')}
+  className="bg-[#1E5CDB] text-white text-sm px-4 py-2 rounded-lg hover:bg-blue-700">
+  უფასოდ სცადე
+</button>
         </div>
       </nav>
 
@@ -37,13 +44,16 @@ function App() {
             BambooHR-ის საუკეთესო ალტერნატივა.
           </p>
           <div className="flex gap-4 justify-center mt-10">
-            <button className="bg-[#1E5CDB] text-white px-8 py-3 rounded-lg text-base font-medium hover:bg-blue-700">
-              უფასოდ სცადე →
-            </button>
-            <button className="border border-gray-600 text-gray-300 px-8 py-3 rounded-lg text-base hover:border-gray-400">
-              Demo ნახვა
-            </button>
-          </div>
+          <button 
+  onClick={() => navigate('/register')}
+  className="bg-[#1E5CDB] text-white px-8 py-3 rounded-lg text-base font-medium hover:bg-blue-700">
+  უფასოდ სცადე →
+</button>
+<button 
+  onClick={() => navigate('/login')}
+  className="border border-gray-600 text-gray-300 px-8 py-3 rounded-lg text-base hover:border-gray-400">
+  Demo ნახვა
+</button>          </div>
           <p className="text-gray-500 text-sm mt-6">
             კრედიტ ბარათი არ გჭირდება · 14 დღე უფასოდ
           </p>
