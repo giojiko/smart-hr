@@ -20,9 +20,11 @@ export default function Login() {
     <div className="min-h-screen bg-[#0A1628] flex items-center justify-center px-4">
       <div className="bg-white rounded-2xl p-8 w-full max-w-md">
         <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold text-[#0A1628]">
-            Smart <span className="text-[#1E5CDB]">HR</span>
-          </h1>
+          <a href="/" className="inline-block">
+            <h1 className="text-2xl font-bold text-[#0A1628]">
+              Smart <span className="text-[#1E5CDB]">HR</span>
+            </h1>
+          </a>
           <p className="text-gray-500 mt-2 text-sm">სისტემაში შესვლა</p>
         </div>
 

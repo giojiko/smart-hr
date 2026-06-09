@@ -49,9 +49,11 @@ export default function Register() {
 
         {/* Logo */}
         <div className="text-center mb-6">
-          <h1 className="text-2xl font-bold text-[#0A1628]">
+            <a href="/" className="inline-block">
+                <h1 className="text-2xl font-bold text-[#0A1628]">
             Smart <span className="text-[#1E5CDB]">HR</span>
-          </h1>
+                </h1>
+            </a>
           <p className="text-gray-500 mt-1 text-sm">კომპანიის რეგისტრაცია</p>
         </div>
 
