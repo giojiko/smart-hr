@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { supabase } from '../supabase'
 import Sidebar from '../components/Sidebar'
 
 export default function EmployeeNew() {
@@ -40,23 +39,50 @@ export default function EmployeeNew() {
   const inputClass = "w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#1E5CDB]"
   const labelClass = "block text-sm font-medium text-gray-700 mb-1"
 
+  const generateTempPassword = () => {
+    const chars = 'ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789'
+    return Array.from({length: 10}, () => chars[Math.floor(Math.random() * chars.length)]).join('')
+  }
+  
   const handleSave = async () => {
+    if (!form.email) { alert('ელ-ფოსტა სავალდებულოა'); return }
+    if (!form.first_name || !form.last_name) { alert('სახელი და გვარი სავალდებულოა'); return }
+  
     setLoading(true)
-    const { error } = await supabase.from('employees').insert([{
-      first_name: form.first_name,
-      last_name: form.last_name,
-      email: form.email,
-      phone: form.phone,
-      job_title: form.job_title,
-      department: form.department,
-      start_date: form.start_date || null,
-      salary_gross: form.full_salary || null,
-      probation_salary: form.probation_salary || null,
-      has_probation: form.has_probation,
-      probation_months: form.probation_months,
-    }])
-    if (error) alert(error.message)
-    else navigate('/employees')
+    const tempPassword = generateTempPassword()
+  
+    try {
+      const response = await fetch('/api/create-employee', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          employeeData: {
+            first_name: form.first_name,
+            last_name: form.last_name,
+            email: form.email,
+            phone: form.phone,
+            job_title: form.job_title,
+            department: form.department,
+            start_date: form.start_date || null,
+            salary_gross: form.full_salary || null,
+            probation_salary: form.probation_salary || null,
+            has_probation: form.has_probation,
+            probation_months: form.probation_months,
+          },
+          tempPassword,
+        })
+      })
+  
+      const result = await response.json()
+      if (result.error) throw new Error(result.error)
+  
+      alert('✅ თანამშრომელი დაემატა! Email გაიგზავნა.')
+      navigate('/employees')
+  
+    } catch (err: any) {
+      alert('შეცდომა: ' + err.message)
+    }
+  
     setLoading(false)
   }
 
